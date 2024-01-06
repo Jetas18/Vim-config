@@ -10,13 +10,20 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'Xuyuanp/nerdtree-git-plugin' 
 Plug '907th/vim-auto-save' 
 Plug 'rhysd/vim-clang-format'
-Plug 'neoclide/coc.nvim'
 Plug 'sheerun/vim-polyglot'
 
+Plug 'ziglang/zig.vim'
+  
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+
+"vim airline
+" Plug 'vim-airline/vim-airline'
 
 Plug 'raimondi/delimitmate'
 
-
+Plug 'scrooloose/syntastic'
 
 Plug 'scrooloose/nerdtree'
 
@@ -32,11 +39,10 @@ call plug#end()
 syntax on
 let mapleader=" "
 let NERDTreeShowHidden=1
-let g:auto_save = 1
-let g:auto_save_events = ["InsertLeave", "TextChanged"]
+" let g:auto_save = 1
+" let g:auto_save_events = ["InsertLeave", "TextChanged"]
 let $FZF_DEFAULT_COMMAND = 'fdfind --type f --hidden --follow --exclude .git --ignore-file ~/.ignore'
 set mouse=a 
-set clipboard=unnamedplus 
 set cursorline
 highlight CursorLine ctermbg=Yellow cterm=bold guibg=#2b2b2b
 set noerrorbells
@@ -51,7 +57,7 @@ set smartcase
 set noswapfile
 set nobackup
 set incsearch
-set history=5000
+set history=100
 set nocompatible
 set number relativenumber
 set background=dark
@@ -68,15 +74,12 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 set spell spelllang=en_us
 set clipboard=unnamedplus
 set clipboard+=unnamed
-colorscheme onedark
 " Plugin Shortcuts
 colorscheme onedark
-syntax enable
 set scrolloff=1
 
 
 
-map <C-\> :Goyo<CR>
 nnoremap <F5> :UndotreeToggle<CR> :UndotreeFocus<CR>
 nnoremap <C-f> :Files!<CR>
 " nnoremap <Leader>l :Tabularize /
@@ -84,15 +87,11 @@ nnoremap <C-f> :Files!<CR>
 
 imap <C-l> <Plug>(coc-snippets-expand)
 
-vmap p "+p 
-nmap <C-c> "*y
+" nmap p "+p 
+nmap y "+y
 
 
-
-
-
-
-
+set nowrap
 
 map <Leader>l <Plug>(easymotion-lineforward)
 map <Leader>j <Plug>(easymotion-j)
@@ -104,6 +103,11 @@ map <Leader>h <Plug>(easymotion-linebackward)
 let g:EasyMotion_startofline = 0 " keep cursor column when JK motion
 
 
+augroup AutoClangFormat
+    autocmd!
+    autocmd BufEnter *.{c,cpp,cc} :ClangFormatAutoEnable
+    autocmd BufEnter * :ClangFormatAutoDisable
+augroup END
 
 
 map  / <Plug>(easymotion-sn)
@@ -126,6 +130,10 @@ map <Leader>e $
 set undodir=~/.vim/undodir"
 set undofile
 let g:undotree_WindowLayout = 2
+
+
+
+
 
 " Tabedit keybinds
 nnoremap <Leader>1 1gt<CR>
@@ -169,3 +177,5 @@ endfunction
 
 " transparent bg
 " autocmd vimenter * hi Normal guibg=NONE ctermbg=NONE
+
+set sidescrolloff=10
